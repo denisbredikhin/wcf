@@ -270,13 +270,16 @@ namespace System.ServiceModel.Channels
             if (!foundHttpClient)
             {
                 var clientHandler = GetHttpClientHandler(to, clientCertificateToken);
-                if (DecompressionEnabled)
+                if (clientHandler.SupportsAutomaticDecompression)
                 {
-                    clientHandler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                }
-                else
-                {
-                    clientHandler.AutomaticDecompression = DecompressionMethods.None;
+                    if (DecompressionEnabled)
+                    {
+                        clientHandler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                    }
+                    else
+                    {
+                        clientHandler.AutomaticDecompression = DecompressionMethods.None;
+                    }
                 }
 
                 if (clientHandler.SupportsProxy)
